@@ -1,0 +1,38 @@
+local old; 
+old = hookmetamethod(game, "__namecall", function(...) 
+    if getnamecallmethod() == "Kick" then 
+        return nil;
+    end;
+    return old(...);
+end);
+
+for k,v in next, getgc(true) do
+    if type(v) == "table" then
+        if rawget(v, "MagazineSize" or "FireRate" or "ReloadSpeed") then
+            v.MagazineSize = 9999999999999;
+            v.RecoilXSpread = 0;
+            v.RecoilUp = 0;
+            v.RecoilXMin = 0;
+            v.RecoilFirstShot = 0;
+            v.RecoilCamTm = 0;
+            v.RecoilCam = 0;
+            v.RecoilDecrease = 0;
+            v.FireRate = 0;
+            v.ReloadSpeed = 0;
+            v.RecoilUp = 0;
+        end;
+    end;
+end;
+
+for i, v in pairs(game:GetService("Players").LocalPlayer.Status.Ammo:GetDescendants()) do
+    if v:IsA("IntValue") then
+        while task.wait() do
+            v.Value = 100;
+            for k, p in pairs(game:GetService("Players").LocalPlayer.Status.Weapons:GetDescendants()) do
+                if p.Name == "AmmoType" then
+                    p.Value = "9mm";
+                end;
+            end;
+        end;
+    end;
+end;
