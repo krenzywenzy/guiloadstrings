@@ -1,0 +1,59 @@
+repeat wait() until game:IsLoaded()
+workspace:WaitForChild("Level"):WaitForChild("Actors")
+local specialNPCs = {
+    ["SC Commander"] = Color3.new(0.5, 0.5, 1),
+    ["Falcon"] = Color3.new(0.5, 0.5, 1),
+    ["Rivera"] = Color3.new(1, 0.5, 0.5),
+    ["Manager"] = Color3.new(0.5, 0.5, 1),
+    ["Civilian"] = Color3.new(1,1,1),
+    ["Ryan"] = Color3.new(0.5, 0.5, 1),
+    ["Elite Operative"] = Color3.new(0, 0, 0),
+    ["Janitor"] = Color3.new(1,1,1),
+    ["Tech"] = Color3.new(0.5, 0.5, 0.5),
+    ["Analyst"] = Color3.new(1,1,1),
+    ["Rose"] = Color3.new(0.25, 0, 0)
+}
+
+local _2ics = {
+    ["Halcyon Operative"] = Color3.new(0.5, 1, 0.5),
+    ["Phoenix Operative"] = Color3.new(0.5, 1, 0.5),
+    ["Programmer"] = Color3.new(1, 1, 0.5),
+    ["Workshop Tech"] = Color3.new(1, 0.5, 0),
+    ["Tech"] = Color3.new(1, 0.5, 0),
+    ["Agent Hemlock"] = Color3.new(0.5, 1, 0.5),
+    ["Agent Nightshade"] = Color3.new(0.5, 1, 0.5)
+}
+
+for _,v in pairs(game:GetService("Workspace").Level.Actors:GetChildren()) do
+    v:WaitForChild("Character"):WaitForChild("Head"):WaitForChild("Tracker").Enabled = true
+    local isSpecial = specialNPCs[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+    if isSpecial and (not v.Character.Inventory:FindFirstChild("KeycardHS") or isSpecial == Color3.new(0.5, 0.5, 1)) then
+        v.Character.Head.Tracker.Mark.ImageColor3 = isSpecial  
+    elseif v.Character.Inventory:FindFirstChild("KeycardHS") and _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value] then
+        v.Character.Head.Tracker.Mark.ImageColor3 = _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+    elseif v.Character.Inventory:FindFirstChild("KeycardBlue") and _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value] then
+        v.Character.Head.Tracker.Mark.ImageColor3 = _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+        if string.find(v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value, "Agent") and v.Character.Inventory:FindFirstChild("USB") then
+            v.Character.Head.Tracker.Mark.ImageColor3 = Color3.new(0.5, 0.5, 1)
+        end
+    elseif v.Character.Inventory:FindFirstChild("KeycardRed") and _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value] then
+        v.Character.Head.Tracker.Mark.ImageColor3 = _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+    end
+end
+game:GetService("Workspace").Level.Actors.ChildAdded:Connect(function(v)
+    v:WaitForChild("Character"):WaitForChild("Head"):WaitForChild("Tracker").Enabled = true
+    v.Character:WaitForChild("Inventory")
+    local isSpecial = specialNPCs[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+    if isSpecial and not v.Character.Inventory:FindFirstChild("KeycardHS") then
+        v.Character.Head.Tracker.Mark.ImageColor3 = isSpecial
+    elseif v.Character.Inventory:FindFirstChild("KeycardHS") then
+        v.Character.Head.Tracker.Mark.ImageColor3 = _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+    elseif v.Character.Inventory:FindFirstChild("KeycardBlue") and _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value] then
+        v.Character.Head.Tracker.Mark.ImageColor3 = _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+        if string.find(v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value, "Agent") and v.Character.Inventory:FindFirstChild("USB") then
+            v.Character.Head.Tracker.Mark.ImageColor3 = Color3.new(0.5, 0.5, 1)
+        end
+    elseif v.Character.Inventory:FindFirstChild("KeycardRed") and _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value] then
+        v.Character.Head.Tracker.Mark.ImageColor3 = _2ics[v:WaitForChild("Character"):WaitForChild("Interact"):WaitForChild("ObjectName").Value]
+    end
+end)
